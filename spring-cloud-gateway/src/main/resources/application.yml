@@ -1,0 +1,32 @@
+server:
+  port: 8000
+
+spring:
+  application:
+    name: spring-cloud-gateway
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: ted-route-01
+          uri: lb://spring-cloud-consumer
+          filters:
+            - AddRequestParameter=name, world
+          predicates:
+            - Path=/hello
+
+        - id: ted-route-02
+          uri: lb://spring-cloud-consumer
+          predicates:
+            - Path=/world
+#          filters:
+#            - AddRequestParameter=name, world
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
